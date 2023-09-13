@@ -1,10 +1,10 @@
-import { VoteType } from "@prisma/client"
+import { Vote } from "@prisma/client"
 
 export type CachePost = {
     id: string
     title: string
     authorUsername: string
     content: string
-    currentVote: VoteType | undefined
+    currentVote: Vote['type'] | null
     createdAt: Date
 }
