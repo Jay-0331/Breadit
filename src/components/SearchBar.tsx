@@ -20,7 +20,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
     const [input, setInput] = useState<string>('')
     const router = useRouter()
     
-    const { data: queryResults, refetch, isFetching, isFetched } = useQuery({
+    const { data: queryResults, refetch, isFetched } = useQuery({
         queryFn: async () => {
             if(!input) return []
             const { data } = await axios.get(`/api/search?q=${input}`)
