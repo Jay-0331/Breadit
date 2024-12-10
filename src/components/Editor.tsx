@@ -76,7 +76,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
                                     return {
                                         success: 1,
                                         file: {
-                                            url: res.fileUrl,
+                                            url: res.url,
                                         },
                                     }
                                 },
