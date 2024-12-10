@@ -16,11 +16,11 @@ type LayoutProps = {
 
 const Layout = async ({
     children,
-    params: { slug }
+    params
 }: LayoutProps) => {
     const session = await getAuthSession()
     const subreddit = await db.subreddit.findFirst({
-        where: { name: slug },
+        where: { name: params.slug },
         include: {
             posts: {
                 include: {
@@ -36,7 +36,7 @@ const Layout = async ({
     const subscription = !session?.user ? undefined : await db.subscription.findFirst({
         where: {
             subreddit: {
-                name: slug,
+                name: params.slug,
             },
             user: {
                 id: session.user.id,
@@ -49,7 +49,7 @@ const Layout = async ({
     const memberCount = await db.subscription.count({
         where: {
             subreddit: {
-                name:slug,
+                name: params.slug,
             },
         },
     })
@@ -101,7 +101,7 @@ const Layout = async ({
                             ) : null}
                             
                             <div className="border-none">
-                                <Link href={`r/${slug}/submit`} className={buttonVariants({
+                                <Link href={`r/${params.slug}/submit`} className={buttonVariants({
                                     variant: 'outline',
                                     className: 'w-full mb-6'
                                 })}>Create Post</Link>
