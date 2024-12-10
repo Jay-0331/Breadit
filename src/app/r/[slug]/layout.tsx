@@ -7,13 +7,17 @@ import { format } from "date-fns"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
+type LayoutProps = {
+    children: React.ReactNode
+    params: {
+        slug: string
+    }
+}
+
 const Layout = async ({
     children,
     params: { slug }
-}: { 
-    children: React.ReactNode
-    params: { slug: string }
-}) => {
+}: LayoutProps) => {
     const session = await getAuthSession()
     const subreddit = await db.subreddit.findFirst({
         where: { name: slug },
