@@ -9,18 +9,17 @@ import { notFound } from "next/navigation"
 
 type LayoutProps = {
     children: React.ReactNode
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 const Layout = async ({
     children,
     params
 }: LayoutProps) => {
+    const { slug } = await params
     const session = await getAuthSession()
     const subreddit = await db.subreddit.findFirst({
-        where: { name: params.slug },
+        where: { name: slug },
         include: {
             posts: {
                 include: {
@@ -36,7 +35,7 @@ const Layout = async ({
     const subscription = !session?.user ? undefined : await db.subscription.findFirst({
         where: {
             subreddit: {
-                name: params.slug,
+                name: slug,
             },
             user: {
                 id: session.user.id,
@@ -49,7 +48,7 @@ const Layout = async ({
     const memberCount = await db.subscription.count({
         where: {
             subreddit: {
-                name: params.slug,
+                name: slug,
             },
         },
     })
@@ -101,7 +100,7 @@ const Layout = async ({
                             ) : null}
                             
                             <div className="border-none">
-                                <Link href={`r/${params.slug}/submit`} className={buttonVariants({
+                                <Link href={`r/${slug}/submit`} className={buttonVariants({
                                     variant: 'outline',
                                     className: 'w-full mb-6'
                                 })}>Create Post</Link>

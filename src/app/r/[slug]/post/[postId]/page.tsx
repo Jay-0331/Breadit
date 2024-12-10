@@ -13,24 +13,24 @@ import { Suspense } from 'react'
 
 
 interface PageProps {
-    params: {
-        postId: string
-    }
+    params: Promise<{ postId: string }>
 }
 
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
 const page = async ({params}: PageProps) => {
+
+    const { postId } = await params
     
-    const cachedPost = await redis.hgetall(`post:${params.postId}`) as CachePost
+    const cachedPost = await redis.hgetall(`post:${postId}`) as CachePost
 
     let post: (Post & { votes: Vote[]; author: User}) | null = null
 
     if(!cachedPost) {
         post  = await db.post.findFirst({
             where: {
-                id: params.postId,
+                id: postId,
             },
             include:  {
                 votes: true,
@@ -49,7 +49,7 @@ const page = async ({params}: PageProps) => {
                     <PostVoteServer postId={post?.id ?? cachedPost.id} getData={async () => {
                         return await db.post.findUnique({
                             where: {
-                                id: params.postId,
+                                id: postId,
                             },
                             include: {
                                 votes: true,
