@@ -1,5 +1,5 @@
 import { formatTimeToNow } from '@/lib/utils'
-import { Post, User, Vote } from '@prisma/client'
+import type { Post, User, Vote } from '@prisma/client'
 import { MessageSquare } from 'lucide-react'
 import { FC, useRef } from 'react'
 import EditorOutput from './EditorOutput'
@@ -61,7 +61,7 @@ const Post: FC<PostProps> = ({ subredditName, post, commentAmt, votesAmt, curren
             </div>
         </div>
 
-        <div className='bg-zinc-100 dark:bg-zinc-900 z-20 text-sm p-4 sm:px-6'>
+        <div className='z-20 text-sm p-4 sm:px-6'>
             <a className='w-fit flex items-center gap-2' href={`/r/${subredditName}/post/${post.id}`}>
                 <MessageSquare className='h-4 w-4'/> {commentAmt} comments
             </a>
