@@ -50,7 +50,7 @@
     "lucide-react": "^0.221.0",
     "nanoid": "^4.0.2",
     "next-auth": "^4.24.5",
-    "next": "^15.0.4",
+    "next": "15.0.7",
     "next-themes": "^0.2.1",
     "postcss": "8.4.31",
     "prisma": "^4.14.1",
